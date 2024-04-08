@@ -1,6 +1,7 @@
 package ex
 
 import scala.annotation.targetName
+import scala.collection.immutable.LazyList.cons
 
 // Express a second degree polynomial
 // Structure: secondDegree * X^2 + firstDegree * X + constant
@@ -12,8 +13,22 @@ trait SecondDegreePolynomial:
   def -(polynomial: SecondDegreePolynomial): SecondDegreePolynomial
 
 
+case class SecondDegreePolynomialImpl(secondDegree: Double, firstDegree: Double, constant: Double) extends SecondDegreePolynomial:
+  override def -(polynomial: SecondDegreePolynomial): SecondDegreePolynomial = new SecondDegreePolynomialImpl(
+    secondDegree - polynomial.secondDegree,
+    firstDegree - polynomial.firstDegree,
+    constant - polynomial.constant,
+  )
+
+  override def +(polynomial: SecondDegreePolynomial): SecondDegreePolynomial = new SecondDegreePolynomialImpl(
+    secondDegree + polynomial.secondDegree,
+    firstDegree + polynomial.firstDegree,
+    constant + polynomial.constant,
+  )
+
 object SecondDegreePolynomial:
-  def apply(secondDegree: Double, firstDegree: Double, constant: Double): SecondDegreePolynomial = ??? // Fill here
+  def apply(secondDegree: Double, firstDegree: Double, constant: Double): SecondDegreePolynomial =
+    new SecondDegreePolynomialImpl(secondDegree, firstDegree, constant)
 
 @main def checkComplex(): Unit =
   val simplePolynomial = SecondDegreePolynomial(1.0, 0, 3)
