@@ -1,5 +1,8 @@
 package task3
 
+// Code taken from solution of pps-lab1b available at:
+// https://github.com/S-furi/pps-23-24-lab01b/tree/master/src/main/java/e1
+
 object Logics:
   trait Logic:
     def hasKnight(row: Int, col: Int): Boolean
