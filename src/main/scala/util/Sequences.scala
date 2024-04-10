@@ -51,8 +51,40 @@ object Sequences: // Essentially, generic linkedlists
       def reverse(): Sequence[A] = sequence match
         case Cons(h, t) => t.reverse().concat(Cons(h, Nil()))
         case _ => Nil()
-@main def trySequences =
-  import Sequences.* 
+
+      def anyMatch(p: A => Boolean): Boolean = sequence match
+        case Cons(h, Nil()) => p(h)
+        case Cons(h, t) => p(h) && t.anyMatch(p)
+        case _ => false
+
+      def foldLeft[B](acc: B)(f: (B, A) => B): B = sequence match
+        case Cons(h, t) => t.foldLeft(f(acc, h))(f)
+        case _ => acc
+
+      def distinct(): Sequence[A] =
+        sequence.foldLeft(Sequence.empty[A]) { (acc, curr) =>
+          if !acc.contains(curr) then Cons(curr, acc)
+          else acc
+        }.reverse()
+
+
+    object sameTag:
+      import ex.Item
+
+      def unapply(s: Sequence[Item]): Option[String] =
+        s.flatMap(_.tags)
+          .distinct()
+          .filter(t => s.anyMatch(_.tags.contains(t)))
+          .head
+        match
+          case Just(t) => Option(t)
+          case _ => Option.empty
+
+@main def trySequences(): Unit =
+  import Sequences.*
+  import Sequences.Sequence.sameTag
+  import ex.Item
+
   val sequence = Sequence(1, 2, 3)
   println(sequence)
   println(sequence.head)
@@ -62,5 +94,15 @@ object Sequences: // Essentially, generic linkedlists
   println(sequence.concat(Sequence(4, 5, 6)))
   println(sequence.find(_ % 2 == 0))
   println(sequence.contains(2))
+
+  val items = Sequence(
+    Item(1, "a", "1", "2"),
+    Item(2, "b", "1"),
+    Item(3, "c", "2", "1")
+  )
+
+  items match
+    case sameTag(t) => println(s"$items have same tag $t")
+    case _ => println(s"$items have different tags")
 
 

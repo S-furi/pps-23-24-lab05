@@ -46,3 +46,41 @@ class SequenceTest:
     assertTrue(s.contains(1))
     assertTrue(s.contains(2))
     assertFalse(Sequence.Nil().contains(1))
+
+  @Test
+  def testReverse(): Unit =
+    val s  = Sequence(3, 2, 1)
+    assertEquals(Sequence(1, 2, 3), s.reverse())
+
+  @Test
+  def testFoldLeft(): Unit =
+    val s = Sequence(10, 20, 30)
+    val expectedResult = 60
+    assertEquals(expectedResult, s.foldLeft(0)(_ + _))
+
+  @Test
+  def testAnyMatch(): Unit =
+    val s = Sequence(1, 2, 3)
+    assertTrue(s.anyMatch(_ > 0))
+    assertFalse(s.anyMatch(_ % 2 == 0))
+
+  @Test
+  def testDistinct(): Unit =
+    val s = Sequence(1, 2, 1, 3, 2)
+    val expected = Sequence(1, 2, 3)
+    assertEquals(expected, s.distinct())
+
+  @Test
+  def testItemsHaveSameTag(): Unit =
+    import ex.Item
+    import util.Sequences.Sequence.sameTag
+
+    val items = Sequence(
+      Item(1, "a", "1", "2"),
+      Item(2, "b", "1"),
+      Item(3, "c", "2", "1")
+    )
+
+    items match
+      case sameTag(tag) => assertEquals("1", tag)
+      case _ => fail()
