@@ -10,7 +10,8 @@ trait Item:
   def tags: Sequence[String]
 
 object Item:
-  def apply(code: Int, name: String, tags: String*): Item = ItemImpl(code, name, tags.foldLeft(Nil())((curr, acc) => Cons(acc, curr)))
+  def apply(code: Int, name: String, tags: String*): Item =
+    ItemImpl(code, name, tags.foldLeft(Sequence.empty[String])((curr, acc) => Cons(acc, curr)).reverse())
   private case class ItemImpl(code: Int, name: String, tags: Sequence[String]) extends Item
 
 /**

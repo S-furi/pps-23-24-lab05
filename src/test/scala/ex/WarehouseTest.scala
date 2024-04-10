@@ -17,7 +17,7 @@ class WarehouseTest:
   @Test def testItemCreation(): Unit = {
     assertEquals(1, i.code)
     assertEquals("test", i.name)
-    assertEquals(Sequence("c", "b", "a"), i.tags)
+    assertEquals(Sequence("a", "b", "c"), i.tags)
   }
 
   @Test def testWarehouseContains(): Unit = {
