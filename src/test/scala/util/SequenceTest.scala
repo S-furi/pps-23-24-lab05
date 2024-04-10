@@ -71,7 +71,7 @@ class SequenceTest:
     assertEquals(expected, s.distinct())
 
   @Test
-  def testItemsHaveSameTag(): Unit =
+  def testSameTagMatchingOnItems(): Unit =
     import ex.Item
     import util.Sequences.Sequence.sameTag
 
