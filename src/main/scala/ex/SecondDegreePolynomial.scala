@@ -14,13 +14,13 @@ trait SecondDegreePolynomial:
 
 
 case class SecondDegreePolynomialImpl(secondDegree: Double, firstDegree: Double, constant: Double) extends SecondDegreePolynomial:
-  override def -(polynomial: SecondDegreePolynomial): SecondDegreePolynomial = new SecondDegreePolynomialImpl(
+  override def -(polynomial: SecondDegreePolynomial): SecondDegreePolynomial = SecondDegreePolynomial(
     secondDegree - polynomial.secondDegree,
     firstDegree - polynomial.firstDegree,
     constant - polynomial.constant,
   )
 
-  override def +(polynomial: SecondDegreePolynomial): SecondDegreePolynomial = new SecondDegreePolynomialImpl(
+  override def +(polynomial: SecondDegreePolynomial): SecondDegreePolynomial = SecondDegreePolynomial(
     secondDegree + polynomial.secondDegree,
     firstDegree + polynomial.firstDegree,
     constant + polynomial.constant,
